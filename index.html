@@ -3,7 +3,7 @@
 <head>
 <script src="./jquery.js"></script>
 <script>
-var positionData={};
+var positionData={}; //left-top
 var nowSel="";
 $(document).ready(function(){
 var tr=$("<tr></tr>");var td=$("<td></td>");
@@ -25,10 +25,10 @@ for(var i=0;i<9;i++)for(var j=0;j<10;j++)$('<div class="hint" data-left="'+i+'" 
 $("img.jangial").click(function(){
 var a=$("#f_focus");
 if(a.css("top")==this.style.top && a.css("left")==this.style.left)
-	if(parseInt($("#focus").css("width"),10)==0){$("#focus").css({width:"100%",height:"100%"});$(".hint").css("display","block");nowSel=this.id}
+	if(parseInt($("#focus").css("width"),10)==0){$("#focus").css({width:"100%",height:"100%"});$(".hint").css("display","block");nowSel=this.id;for(var i in positionData)if(blockType(i)[1]==blockType(nowSel)[1])$(".hint[data-left="+positionData[i][0]+"][data-top="+positionData[i][1]+"]").css("display","none")}
 	else{$("#focus").css({width:0,height:0});$(".hint").css("display","none");nowSel=""}
 
-else{a.css({"top":this.style.top,"left":this.style.left});$("#focus").css({width:"100%",height:"100%"});$(".hint").css("display","block");nowSel=this.id}
+else{a.css({"top":this.style.top,"left":this.style.left});$("#focus").css({width:"100%",height:"100%"});$(".hint").css("display","block");nowSel=this.id;for(var i in positionData)if(blockType(i)[1]==blockType(nowSel)[1])$(".hint[data-left="+positionData[i][0]+"][data-top="+positionData[i][1]+"]").css("display","none")}
 });
 	$(".hint").click(function(){
 	if(nowSel=="")return
@@ -58,6 +58,7 @@ if(!(function(){
 	var b=[Math.abs(s[0]-l[0]),Math.abs(s[1]-l[1])]
 	function eq(x,y){return x.join(",")==y.join(",")}
 	var ty=blockType(t);
+	for(var i in positionData)if(blockType(i)[1]==ty[1] && eq(l,positionData[i]))return false;
 	switch(ty[0]){
 	case "ch":case "po":return (b[0]==0)||(b[1]==0)
 	case "ma":return eq(b,[2,1])||eq(b,[1,2])
