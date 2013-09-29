@@ -52,15 +52,28 @@ else if(a instanceof $&&typeof a=="object")a=a[0].id;
 else if(typeof a!="string")return;
 return [a.substr(0,a.length-2).replace("#",""),parseInt(a.substr(a.length-2,1),10)]
 }
+function z(){return arguments[0]?"t":"f"}
 function mvBlk(t,s,l){
+var assumeEaten=false;
 //blockType
 if(!(function(){
 	var b=[Math.abs(s[0]-l[0]),Math.abs(s[1]-l[1])]
 	function eq(x,y){return x.join(",")==y.join(",")}
 	var ty=blockType(t);
-	for(var i in positionData)if(blockType(i)[1]==ty[1] && eq(l,positionData[i]))return false;
+	for(var i in positionData)if(eq(l,positionData[i])){if(blockType(i)[1]==ty[1])return false; else assumeEaten=i};
 	switch(ty[0]){
-	case "ch":case "po":return (b[0]==0)||(b[1]==0)
+	case "po":if(assumeEaten!=false && blockType(assumeEaten)[0]=="po")return false;var cnt=0
+	if(b[0]==0)for(var i in positionData){if(positionData[i][0]==l[0] && positionData[i][1]>Math.min(s[1],l[1]) && positionData[i][1]<Math.max(s[1],l[1]))if(blockType(i)[0]=="po")return false;else if(cnt++>0)return false;}
+	else if(b[1]==0)for(var i in positionData){if(positionData[i][1]==l[1] && positionData[i][0]>Math.min(s[0],l[0]) && positionData[i][0]<Math.max(s[0],l[0]))if(blockType(i)[0]=="po")return false;else if(cnt++>0)return false;}
+	else if(eq(b,[2,2])){
+		if(l[1]>5){for(var i in positionData)if(eq(positionData[i],[4,8])){if(blockType(i)[0]=="po")return false;else{cnt=1;break}}}
+		else if(l[1]<5){for(var i in positionData)if(eq(positionData[i],[4,1])){if(blockType(i)[0]=="po")return false;else{cnt=1;break}}}
+}
+	
+	if(cnt==0)return false;
+	case "ch":return ((b[0]==0)||(b[1]==0))||(b[0]<=2&&b[1]<=2&&l[0]<=5&&l[0]>=3&&(l[1]<=2||l[1]>=7)&&(
+		(eq(s,[3,1])||eq(s,[5,1])||eq(s,[3,8])||eq(s,[5,8])||eq(s,[4,0])||eq(s,[4,2])||eq(s,[4,7])||eq(s,[4,9]))?!eq(b,[1,1]):true
+		))
 	case "ma":return eq(b,[2,1])||eq(b,[1,2])
 	case "san":return eq(b,[3,2])||eq(b,[2,3])
 	case "pa":return (eq(b,[0,1])||eq(b,[1,0]))&&((ty[1]==1&&s[1]-l[1]>=0)||(ty[1]==2&&s[1]-l[1]<=0))
@@ -70,6 +83,7 @@ if(!(function(){
 		)
 	}
 	})())return;
+if(assumeEaten!=false)$(assumeEaten).css({width:0,height:0})
 blockMove(t,l[0],l[1]);$(".hint").css("display","none");$("#focus").css({width:0,height:0})
 }
 </script>
