@@ -36,7 +36,7 @@ else{a.css({"top":this.style.top,"left":this.style.left});$("#focus").css({width
 	var b=[parseInt(a.css("left"),10)/68,parseInt(a.css("top"),10)/68]
 	var c=$(this)
 	var d;
-	if(b==(d=[c.data("left"),c.data("top")]))return
+	if(b.join(",")==(d=[c.data("left"),c.data("top")]).join(","))return
 	mvBlk("#"+nowSel,b,d)
 	});
 });
@@ -74,7 +74,9 @@ if(!(function(){
 	case "ch":return ((b[0]==0)||(b[1]==0))||(b[0]<=2&&b[1]<=2&&l[0]<=5&&l[0]>=3&&(l[1]<=2||l[1]>=7)&&(
 		(eq(s,[3,1])||eq(s,[5,1])||eq(s,[3,8])||eq(s,[5,8])||eq(s,[4,0])||eq(s,[4,2])||eq(s,[4,7])||eq(s,[4,9]))?!eq(b,[1,1]):true
 		))
-	case "ma":return eq(b,[2,1])||eq(b,[1,2])
+	case "ma":var tmp;if(eq(b,[2,1]))tmp=(s[0]<l[0])?[s[0]+1,s[1]]:[s[0]-1,s[1]];
+	else if(eq(b,[1,2]))tmp=(s[1]<l[1])?[s[0],s[1]+1]:[s[0],s[1]-1];else return false;
+	for(var i in positionData)if(eq(positionData[i],tmp))return false;return true;
 	case "san":return eq(b,[3,2])||eq(b,[2,3])
 	case "pa":return (eq(b,[0,1])||eq(b,[1,0]))&&((ty[1]==1&&s[1]-l[1]>=0)||(ty[1]==2&&s[1]-l[1]<=0))
 	case "sa":case "ki":
@@ -83,7 +85,7 @@ if(!(function(){
 		)
 	}
 	})())return;
-if(assumeEaten!=false)$(assumeEaten).css({width:0,height:0})
+if(assumeEaten!=false){$(assumeEaten).css({width:0,height:0});positionData[assumeEaten]=[-1,-1]}
 blockMove(t,l[0],l[1]);$(".hint").css("display","none");$("#focus").css({width:0,height:0})
 }
 </script>
