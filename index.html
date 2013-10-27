@@ -128,7 +128,7 @@ if(!(function(){
 		)
 	}
 	})())return;
-if(assumeEaten!=false)$(assumeEaten).css({width:0,height:0})
+if(assumeEaten!=false){$(assumeEaten).css({width:0,height:0});positionData[assumeEaten]=[-1,-1]}
 blockMove(t,l[0],l[1]);$(".hint").css("display","none");$("#focus").css({width:0,height:0});nowSel=""
 }
 </script>
