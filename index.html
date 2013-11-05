@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+<title>장기 둘 거야!</title>
 <script src="./jquery.js"></script>
 <script>
 var positionData={}; //left-top
@@ -8,16 +9,16 @@ var nowSel="";
 var math={inRange:function(a,b,c){
 	//lot of arguments: AND operator
 	if(typeof a=="number")return (a<=c)?(a<=b&&b<=c):(a<=b||b<=c);
-	else{for(var i=0;i<arguments.length;i++){var t=arguments[i];if(!((t[0]<=t[2])?(t[0]<=t[1]&&t[1]<=t[2]):(t[0]<=t[1]||t[1]<=t[2])))return false}
-	return true}
-	},ascOrder2:function(a,b){return (a>b)?[b,a]:[a,b]},palaceRange:function(l,s){return math.inRange([3,l[0],5],[7,l[1],2],[3,s[0],5],[7,s[1],2])}}
+	else{for(var i=0;i<arguments.length;i++){var t=arguments[i];if(!((t[0]<=t[2])?(t[0]<=t[1]&&t[1]<=t[2]):(t[0]<=t[1]||t[1]<=t[2])))return false;}
+	return true;}
+	},ascOrder2:function(a,b){return (a>b)?[b,a]:[a,b];},palaceRange:function(l,s){return math.inRange([3,l[0],5],[7,l[1],2],[3,s[0],5],[7,s[1],2]);}};
 $(document).ready(function(){
 var tr=$("<tr></tr>");var td=$("<td></td>");
 for(var i=0;i<8;i++)tr.append(td.clone());
 for(i=0;i<9;i++)$("#line1").append(tr.clone());
-$("#line1 tr:eq(0) td:eq(3),#line1 tr:eq(1) td:eq(4),#line1 tr:eq(7) td:eq(3),#line1 tr:eq(8) td:eq(4)").append("<div class='line_nw'></div>")
-$("#line1 tr:eq(0) td:eq(4),#line1 tr:eq(1) td:eq(3),#line1 tr:eq(7) td:eq(4),#line1 tr:eq(8) td:eq(3)").append("<div class='line_ne'></div>")
-$(".jangial").each(function(i,v){v.src="./"+v.className.match(/(blue|red)_[^\s]+/)[0]+".png"})
+$("#line1 tr:eq(0) td:eq(3),#line1 tr:eq(1) td:eq(4),#line1 tr:eq(7) td:eq(3),#line1 tr:eq(8) td:eq(4)").append("<div class='line_nw'></div>");
+$("#line1 tr:eq(0) td:eq(4),#line1 tr:eq(1) td:eq(3),#line1 tr:eq(7) td:eq(4),#line1 tr:eq(8) td:eq(3)").append("<div class='line_ne'></div>");
+$(".jangial").each(function(i,v){v.src="./"+v.className.match(/(blue|red)_[^\s]+/)[0]+".png";});
 blockMove
 ("#sa21",3,0)("#sa22",5,0)("#sa11",3,9)("#sa12",5,9)
 ("#ki11",4,8)("#ki21",4,1)
@@ -32,12 +33,12 @@ $("img.jangial").click(function(){
 if(this.id==nowSel){
 	$("#focus").css({width:0,height:0});
 	$(".hint").css("display","none");
-	nowSel=""
+	nowSel="";
 	}
 else if(Math.abs(blockType(this.id)[1]-blockType(nowSel)[1])==1){
 	var a=$("#"+this.id);var b=$("#"+nowSel);
-	var t=[[parseInt(a.css("left"),10)/68,parseInt(a.css("top"),10)/68],[parseInt(b.css("left"),10)/68,parseInt(b.css("top"),10)/68]]
-	mvBlk("#"+nowSel,t[1],t[0])
+	var t=[[parseInt(a.css("left"),10)/68,parseInt(a.css("top"),10)/68],[parseInt(b.css("left"),10)/68,parseInt(b.css("top"),10)/68]];
+	mvBlk("#"+nowSel,t[1],t[0]);
 	}
 else{
 	$("#f_focus").css({"top":this.style.top,"left":this.style.left});
@@ -46,67 +47,67 @@ else{
 	nowSel=this.id;
 	for(var i in positionData)
 		if(blockType(i)[1]==blockType(nowSel)[1])
-			$(".hint[data-left="+positionData[i][0]+"][data-top="+positionData[i][1]+"]").css("display","none")
+			$(".hint[data-left="+positionData[i][0]+"][data-top="+positionData[i][1]+"]").css("display","none");
 	
 	}
 });
 	$(".hint").click(function(){
-	if(nowSel=="")return
-	var a=$("#"+nowSel)
-	var b=[parseInt(a.css("left"),10)/68,parseInt(a.css("top"),10)/68]
-	var c=$(this)
+	if(nowSel=="")return;
+	var a=$("#"+nowSel);
+	var b=[parseInt(a.css("left"),10)/68,parseInt(a.css("top"),10)/68];
+	var c=$(this);
 	var d;
 	if(b==(d=[c.data("left"),c.data("top")]))return
-	mvBlk("#"+nowSel,b,d)
+	mvBlk("#"+nowSel,b,d);
 	});
 	setOpp(2);
 });
 function setOpp(a){
-	for(var i in positionData)if(blockType(i)[1]==a)$(i).addClass("opposite")
+	for(var i in positionData)if(blockType(i)[1]==a)$(i).addClass("opposite");
 }
 function blockMove(t,x,y){
-$(t).css({"left":x*68+"px","top":y*68+"px"})
+$(t).css({"left":x*68+"px","top":y*68+"px"});
 //if(arguments.length>3)blockMove.apply(null,Array.prototype.slice.call(arguments,3))
-positionData[t]=[x,y]
-return blockMove
+positionData[t]=[x,y];
+return blockMove;
 }
 function blockType(a){
 if(a instanceof HTMLElement&&typeof a=="object")a=a.id;
 else if(a instanceof $&&typeof a=="object")a=a[0].id;
 else if(typeof a!="string")return;
-return [a.substr(0,a.length-2).replace("#",""),parseInt(a.substr(a.length-2,1),10)]
+return [a.substr(0,a.length-2).replace("#",""),parseInt(a.substr(a.length-2,1),10)];
 }
-function z(){return arguments[0]?"t":"f"}
+function z(){return arguments[0]?"t":"f";}
 function mvBlk(t,s,l){
 	//TODO: automatically calculate s
 var assumeEaten=false;
 //blockType
 if(!(function(){
-	var b=[Math.abs(s[0]-l[0]),Math.abs(s[1]-l[1])]
+	var b=[Math.abs(s[0]-l[0]),Math.abs(s[1]-l[1])];
 	function eq(x){
 		for(var i=1;i<arguments.length;i++)if(x.join(",")==arguments[i].join(","))return true
-		return false
+		return false;
 		}
 	function disturbs(tp,as){
 	//line obj:[left,[top_min,top_max]|[[left_min,left_max],top]
 	//checks min<x<max
 	//spot obj:[left,top]
-		var tR=[]
+		var tR=[];
 		for(var i in positionData){
 			var bool=false;
-			var t=positionData[i]
+			var t=positionData[i];
 			for(var j in tp){
-				var c=tp[j]
-				if(typeof c[0]!="number"){if((bool=(c[1]+as[1]==t[1])&&(c[0][0]+as[0]<t[0])&&(c[0][1]+as[1]>t[0])))break}
-				else if(typeof c[1]!="number"){if((bool=(c[0]+as[0]==t[0])&&(c[1][0]+as[0]<t[1])&&(c[1][1]+as[1]>t[1])))break}
+				var c=tp[j];
+				if(typeof c[0]!="number"){if((bool=(c[1]+as[1]==t[1])&&(c[0][0]+as[0]<t[0])&&(c[0][1]+as[1]>t[0])))break;}
+				else if(typeof c[1]!="number"){if((bool=(c[0]+as[0]==t[0])&&(c[1][0]+as[0]<t[1])&&(c[1][1]+as[1]>t[1])))break;}
 				else if((bool=((c[0]+as[0])+","+(c[1]+as[1]))==t.join(",")))break;
 			}
-			if(bool)tR.push({"name":i,"pos":t})//shit wwwwwwwwwwwww
+			if(bool)tR.push({"name":i,"pos":t});//shit wwwwwwwwwwwww
 		}
-		return tR
+		return tR;
 	}
 	var ty=blockType(t);
-	for(var i in positionData)if(eq(l,positionData[i])){if(blockType(i)[1]==ty[1])return false; else assumeEaten=i};
+	for(var i in positionData)if(eq(l,positionData[i])){if(blockType(i)[1]==ty[1])return false; else assumeEaten=i;};
 	switch(ty[0]){
 	case "po":
 		if(assumeEaten!=false && blockType(assumeEaten)[0]=="po")return false;
@@ -116,7 +117,7 @@ if(!(function(){
 			for(var i in tmp)if(blockType(tmp[i].name)[0]=="po")return false;
 			return true;
 		}else if(b[1]==0){
-			var tmp=disturbs([[math.ascOrder2(s[0],l[0]),s[1]]],[0,0])
+			var tmp=disturbs([[math.ascOrder2(s[0],l[0]),s[1]]],[0,0]);
 			if(tmp.length!=1)return false;
 			for(var i in tmp)if(blockType(tmp[i].name)[0]=="po")return false;
 			return true;
@@ -141,23 +142,23 @@ if(!(function(){
 		else if(eq(b,[1,2]))return disturbs([[0,tmp.y]],s).length==0;
 		else return false;
 		
-	case "san":var tmp={"x":((s[0]<l[0])?1:-1),"y":((s[1]<l[1])?1:-1)}
+	case "san":var tmp={"x":((s[0]<l[0])?1:-1),"y":((s[1]<l[1])?1:-1)};
 		if(eq(b,[3,2]))return disturbs([[tmp.x,0],[tmp.x*2,tmp.y]],s).length==0;
 		else if(eq(b,[2,3]))return disturbs([[0,tmp.y],[tmp.x,tmp.y*2]],s).length==0;
 		else return false;
 	
 	case "pa":if(eq(b,[0,1])||eq(b,[1,0]))return((ty[1]==1&&s[1]-l[1]>=0)||(ty[1]==2&&s[1]-l[1]<=0));
-		else if(eq(b,[1,1])&&math.palaceRange(l,s))return eq(s,[3,2],[5,2],[4,1],[3,7],[5,7],[4,8])
+		else if(eq(b,[1,1])&&math.palaceRange(l,s))return eq(s,[3,2],[5,2],[4,1],[3,7],[5,7],[4,8]);
 		else return false;
 		
 	case "sa":case "ki":
 	return b[0]<=1&&b[1]<=1&&math.palaceRange(l,s)&&(
 		(eq(s,[3,1],[5,1],[3,8],[5,8],[4,0],[4,2],[4,7],[4,9]))?!eq(b,[1,1]):true
-		)
+		);
 	}
 	})())return;
-if(assumeEaten!=false){$(assumeEaten).css({width:0,height:0});positionData[assumeEaten]=[-1,-1]}
-blockMove(t,l[0],l[1]);$(".hint").css("display","none");$("#focus").css({width:0,height:0});nowSel=""
+if(assumeEaten!=false){$(assumeEaten).css({width:0,height:0});positionData[assumeEaten]=[-1,-1];}
+blockMove(t,l[0],l[1]);$(".hint").css("display","none");$("#focus").css({width:0,height:0});nowSel="";
 }
 </script>
 <style type="text/css">
@@ -224,8 +225,8 @@ transform: rotate(180deg);
 </head>
 <body>
 <div id="main">
-<div id="f_focus"><div id="focus"></div></div>
-<table id="line1" border=0></table>
+<div id="f_focus"><div id="focus"> </div></div>
+<table id="line1" border=0> </table>
 <img class="blue_po jangial" id="po11"><img class="blue_po jangial" id="po12">
 <img class="blue_san jangial" id="san11"><img class="blue_san jangial" id="san12">
 <img class="blue_ma jangial" id="ma11"><img class="blue_ma jangial" id="ma12">
